@@ -52,7 +52,7 @@ model Question {
 
   questionType  QuestionType  @relation(fields: [questionTypeCod], references: [codigo])
   questionnaire Questionnaire @relation(fields: [questionnaireId], references: [id])
-  Option        Option[]
+  option        Option[]
 
   @@map("questions")
 }

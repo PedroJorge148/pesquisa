@@ -1,7 +1,12 @@
 import Image from 'next/image'
 import { QuestionForm } from './question-form'
+import { getQuestionsByToken } from '@/actions/get-question-by-token'
 
-export default function Home() {
+export default async function Home() {
+  const questions = await getQuestionsByToken('ae02b7')
+
+  console.log(questions)
+
   return (
     <div className="py-8 min-h-screen w-full flex items-center justify-start flex-col mx-auto max-w-4xl">
       <header className="bg-white rounded-lg w-full p-4 text-center">
