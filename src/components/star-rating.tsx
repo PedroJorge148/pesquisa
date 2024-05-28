@@ -27,7 +27,7 @@ export function StarRating() {
         <svg
           key={star}
           className={cn(
-            'w-8 h-8 text-gray-300',
+            'w-8 h-8 text-gray-300 transition-colors',
             star <= (hover || rating) ? 'text-yellow-300' : 'text-gray-300',
           )}
           aria-hidden="true"
