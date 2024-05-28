@@ -24,6 +24,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Card, CardContent } from '@/components/ui/card'
+import { toast } from 'sonner'
 
 const formSchema = z.any()
 
@@ -37,7 +38,7 @@ export function QuestionForm() {
   function onSubmit(values: FormSchemaType) {
     console.log(values)
     form.reset()
-    toast
+    toast.success('Formulário enviado com sucesso!')
   }
 
   return (
