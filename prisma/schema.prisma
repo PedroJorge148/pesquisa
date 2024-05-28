@@ -1,0 +1,82 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Research {
+  id          Int       @id @default(autoincrement())
+  isOpen      Boolean
+  description String
+  token       String
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime? @map("updated_at")
+
+  questionnaires Questionnaire[]
+
+  @@map("researches")
+}
+
+model Questionnaire {
+  id          Int    @id @default(autoincrement())
+  description String
+  researchId  Int    @map("research_id")
+
+  research Research @relation(fields: [researchId], references: [id])
+
+  questions Question[]
+
+  @@map("questionnaires")
+}
+
+model QuestionType {
+  codigo String @id
+
+  questions Question[]
+}
+
+model Question {
+  id              Int     @id @default(autoincrement())
+  questionnaireId Int     @map("questionnaire_id")
+  questionTypeCod String  @map("question_type")
+  order           Int
+  required        Boolean
+  content         String
+  isActive        Boolean @default(true) @map("is_active")
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+
+  questionType  QuestionType  @relation(fields: [questionTypeCod], references: [codigo])
+  questionnaire Questionnaire @relation(fields: [questionnaireId], references: [id])
+  Option        Option[]
+
+  @@map("questions")
+}
+
+model Answer {
+  id       Int     @id @default(autoincrement())
+  optionId Int?    @map("option_id")
+  rating   Int?
+  content  String?
+
+  option Option? @relation(fields: [optionId], references: [id])
+
+  @@map("answers")
+}
+
+model Option {
+  id         Int     @id @default(autoincrement())
+  content    String
+  isActive   Boolean @default(true) @map("is_active")
+  questionId Int     @map("question_id")
+
+  question Question @relation(fields: [questionId], references: [id])
+
+  answers Answer[]
+
+  @@map("options")
+}
