@@ -1,11 +1,21 @@
 import Image from 'next/image'
 import { QuestionForm } from './question-form'
-import { getQuestionsByToken } from '@/actions/get-question-by-token'
+import { getResearchByToken } from '@/actions/get-research-by-token'
 
-export default async function Home() {
-  const questions = await getQuestionsByToken('ae02b7')
+export default async function Home({
+  searchParams,
+}: {
+  searchParams?: {
+    p?: string
+  }
+}) {
+  const token = searchParams?.p ?? 'ae02b7'
 
-  console.log(questions)
+  const research = await getResearchByToken(token)
+
+  if (!research.isOpen) {
+    return <p>Pesquisa encerrada!</p>
+  }
 
   return (
     <div className="py-8 min-h-screen w-full flex items-center justify-start flex-col mx-auto max-w-4xl">
@@ -19,7 +29,7 @@ export default async function Home() {
             quality={100}
           />
           <div className="space-y-2">
-            <h1 className="font-bold">Pesquisa de Satisfação - AIS Sobral</h1>
+            <h1 className="font-bold">{research.title}</h1>
             <span className="text-sm text-emerald-600/80">
               Questões com asterisco são obrigatórias!
             </span>
@@ -27,7 +37,7 @@ export default async function Home() {
         </div>
       </header>
       <main className="w-full mx-auto mt-4">
-        <QuestionForm />
+        <QuestionForm questions={research.questions} />
       </main>
     </div>
   )

@@ -8,12 +8,12 @@ datasource db {
 }
 
 model Research {
-  id          Int       @id @default(autoincrement())
-  isOpen      Boolean
-  description String
-  token       String
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime? @map("updated_at")
+  id        Int       @id @default(autoincrement())
+  isOpen    Boolean
+  title     String
+  token     String
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
 
   questionnaires Questionnaire[]
 
@@ -36,6 +36,8 @@ model QuestionType {
   codigo String @id
 
   questions Question[]
+
+  @@map("question_types")
 }
 
 model Question {

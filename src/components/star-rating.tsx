@@ -5,12 +5,17 @@ import { cn } from '@/lib/utils'
 
 const badge = ['Péssimo', 'Regular', 'Bom', 'Ótimo', 'Espetacular']
 
-export function StarRating() {
+interface StarRatingProps {
+  onChange: (value: number) => void
+}
+
+export function StarRating({ onChange }: StarRatingProps) {
   const [rating, setRating] = useState(0)
   const [hover, setHover] = useState(0)
 
   function handleRatingChange(newRating: number) {
     setRating(newRating)
+    onChange(newRating)
   }
 
   function handleMouseEnter(star: number) {
